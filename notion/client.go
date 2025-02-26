@@ -1,8 +1,11 @@
 package notion
 
-import "github.com/jomei/notionapi"
+import (
+	"github.com/Hayao0819/Abracadabra/notion/nautils"
+	"github.com/jomei/notionapi"
+)
 
-var client *notionapi.Client
+var client *nautils.Client
 
 func load() error {
 	token, err := getToken()
@@ -10,7 +13,7 @@ func load() error {
 		return err
 	}
 
-	client = notionapi.NewClient(notionapi.Token(token))
+	client = nautils.NewClient(notionapi.Token(token))
 
 	return nil
 }
@@ -19,7 +22,7 @@ func Init() error {
 	return load()
 }
 
-func GetClient() (*notionapi.Client, error) {
+func GetClient() (*nautils.Client, error) {
 	if client == nil {
 		if err := load(); err != nil {
 			return nil, err
@@ -28,7 +31,7 @@ func GetClient() (*notionapi.Client, error) {
 	return client, nil
 }
 
-func ShouldGetClient() *notionapi.Client {
+func ShouldGetClient() *nautils.Client {
 	if client == nil {
 		panic("client is not loaded")
 	}

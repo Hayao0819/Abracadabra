@@ -13,7 +13,7 @@ func meCmd() *cobra.Command {
 
 			nc := notion.ShouldGetClient()
 
-			me, err := nc.User.Me(cmd.Context())
+			me, err := nc.RawClient().User.Me(cmd.Context())
 			if err != nil {
 				return err
 			}

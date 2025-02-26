@@ -6,22 +6,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func listCmd() *cobra.Command {
+func findCmd() *cobra.Command {
 	cmd := cobra.Command{
-		Use:   "list",
-		Short: "List",
+		Use:   "find",
+		Short: "Find",
+		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 
 			nc := notion.ShouldGetClient()
-
-			res, err := nc.SearchPage(cmd.Context(), "")
+			res, err := nc.SearchPage(cmd.Context(), args[0])
 			if err != nil {
 				return err
 			}
 
 			for _, p := range res {
 				t := nautils.PageTitle(p)
-				cmd.Printf("%s %s\n", t.Title[0].PlainText, p.URL)
+				cmd.Println(t.Title[0].PlainText)
 			}
 
 			return nil
@@ -32,5 +32,5 @@ func listCmd() *cobra.Command {
 }
 
 func init() {
-	reg.Add(listCmd())
+	reg.Add(findCmd())
 }
