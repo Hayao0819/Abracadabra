@@ -74,6 +74,9 @@ func (c *Component) Update(msg tea.Msg) tea.Cmd {
 				c.selected--
 			}
 			return nil
+		case "enter":
+			reactea.SetCurrentRoute("/detail/" + c.pages[c.selected].Page.ID.String())
+			return nil
 		}
 	}
 	return nil

@@ -69,3 +69,16 @@ func (c *Client) PageBlocks(ctx context.Context, p *notionapi.Page) ([]notionapi
 	}
 	return blocks, nil
 }
+
+func (c *Client) FullPageFromID(ctx context.Context, pageId notionapi.PageID) (*FullPage, error) {
+	page, err := c.RawClient().Page.Get(ctx, pageId)
+	if err != nil {
+		return nil, err
+	}
+
+	fullPage, err := c.FullPage(page)
+	if err != nil {
+		return nil, err
+	}
+	return fullPage, nil
+}

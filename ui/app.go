@@ -1,9 +1,12 @@
 package ui
 
 import (
+	"fmt"
+
 	"github.com/Hayao0819/Abracadabra/notion/nautils"
 	"github.com/Hayao0819/Abracadabra/ui/common"
 	"github.com/Hayao0819/Abracadabra/ui/pages/list"
+	"github.com/Hayao0819/Abracadabra/utils/reactutils"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/londek/reactea"
 
@@ -26,17 +29,19 @@ func New(client *nautils.Client) *Component {
 }
 
 func (c *Component) Init(reactea.NoProps) tea.Cmd {
-	// Does it remind you of something? react-router!
 	return c.mainRouter.Init(map[string]router.RouteInitializer{
-		"default": func(router.Params) (reactea.SomeComponent, tea.Cmd) {
-			component := list.New()
+		"default": reactutils.Route(list.New(), list.Props{
+			ClientProps: common.ClientProps{
+				Client: c.client,
+			},
+		}),
+		"/detail/:id": func(p router.Params) (reactea.SomeComponent, tea.Cmd) {
+			// c := detail.New()
+			// p := detail.Props{
 
-			p := list.Props{
-				ClientProps: common.ClientProps{
-					Client: c.client,
-				},
-			}
-			return component, component.Init(p)
+			// }
+			fmt.Println("detail")
+			return nil, nil
 		},
 	})
 }
