@@ -6,6 +6,25 @@ import (
 	"github.com/jomei/notionapi"
 )
 
+type FullPage struct {
+	Page   *notionapi.Page
+	Blocks []notionapi.Block
+	Title  *notionapi.TitleProperty
+}
+
+func (c *Client) FullPage(p *notionapi.Page) (*FullPage, error) {
+	blocks, err := c.PageBlocks(context.Background(), p)
+	if err != nil {
+		return nil, err
+	}
+	title := PageTitle(p)
+	return &FullPage{
+		Page:   p,
+		Blocks: blocks,
+		Title:  title,
+	}, nil
+}
+
 func PageTitle(p *notionapi.Page) *notionapi.TitleProperty {
 	rawTitle, ok := p.Properties["title"]
 	if !ok {

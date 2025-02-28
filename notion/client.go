@@ -35,5 +35,8 @@ func ShouldGetClient() *nautils.Client {
 	if client == nil {
 		panic("client is not loaded")
 	}
+	if client.RawClient() == nil {
+		panic("raw client is not loaded")
+	}
 	return client
 }

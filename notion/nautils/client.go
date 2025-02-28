@@ -11,6 +11,9 @@ func NewClientFromNotionAPIClient(c *notionapi.Client) *Client {
 }
 
 func (c *Client) RawClient() *notionapi.Client {
+	if c == nil {
+		panic("client is not loaded")
+	}
 	return c.c
 }
 
